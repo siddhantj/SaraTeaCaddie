@@ -1,42 +1,44 @@
-# Sara's Tea Caddie — deploying to Vercel
+# Sara's Tea Caddie — static site
 
-A real multi-page static site. Every page is its own URL and its own file, with
-normal `<a href>` navigation — no build step, no framework.
+Five plain HTML pages. **No JavaScript, no framework, no build step** — the
+browser paints them on first byte, so navigation is instant with no flash.
 
 ```
-vercel-site/
-  index.html         →  /                (Home)
-  about.html         →  /about
-  teas.html          →  /teas
-  how-to-brew.html   →  /how-to-brew
-  contact.html       →  /contact
+index.html         →  /
+about.html         →  /about
+teas.html          →  /teas
+how-to-brew.html   →  /how-to-brew
+contact.html       →  /contact
+assets/*.jpg       →  tea and hero imagery
 ```
 
-Each file is fully self-contained (fonts, images and runtime inlined, ~1.7 MB),
-so the site works offline and from any host.
+## Deploy
+Drag this folder onto https://vercel.com/new (framework preset **Other**,
+no build command, output directory `.`), or:
 
-## Option A — drag & drop
-1. Go to https://vercel.com/new
-2. "Deploy" → drag this whole `vercel-site` folder onto the drop zone.
-3. Vercel serves clean URLs automatically (`/about`, `/teas`, …).
-
-## Option B — Git + Vercel CLI
 ```bash
-cd vercel-site
-npx vercel            # preview deploy
-npx vercel --prod     # production
+npx vercel --prod
 ```
-Framework preset: **Other**. Build command: empty. Output directory: `.`
 
 ## Custom domain
 Vercel project → Settings → Domains → add `teacaddie.com` and `www.teacaddie.com`,
-then set the DNS records it shows you at the registrar.
+then set the DNS records it gives you at the registrar.
+
+## Editing
+- All styling is inline in each HTML file; the only stylesheet is a small block
+  in `<head>` (font import, body reset, and the Teas dropdown hover).
+- The Teas dropdown is pure CSS `:hover` — no script.
+- Shared markup (header, footer) is duplicated per page by design. If you change
+  the nav, change it in all five files — or ask me to regenerate them from the
+  design file in the project.
 
 ## Still to do before launch
-- **Contact form** is presentational: it shows the confirmation state but does
-  not deliver email. Wire it to Formspree/Basin or a Vercel function — say the
-  word and I'll add it.
-- **Photography**: the tea and hero images are generated stand-ins. Drop Sara's
-  real photos onto the image slots in the design, then re-export.
+- **Contact form** posts nowhere: "Send to Sara" is currently a `mailto:` link.
+  To capture submissions properly, wrap the fields in
+  `<form action="https://formspree.io/f/YOUR_ID" method="POST">` (Formspree,
+  Basin, or a Vercel function) and give each input a `name`. I can wire this up.
+- **Photography**: the tea and hero images are generated stand-ins; three slots
+  (Sara's portrait ×2, the brewing shot) show a labelled grey plate. Send real
+  photos and I'll drop them in.
 - **Email address**: the business card scans as `leacaddie.com`; the site uses
-  `sara@teacaddie.com`. Please confirm.
+  `sara@teacaddie.com`. Please confirm which is correct.
